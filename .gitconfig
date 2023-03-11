@@ -1,0 +1,24 @@
+[user]
+    name = Logan Bednarz
+    email = lbednarz@hawk.iit.edu
+
+[init]
+    defaultBranch = master
+[core]
+    autocrlf = input
+
+# [filter "lfs"]
+#     clean = git-lfs clean %f
+#     smudge = git-lfs smudge %f
+#     required = true
+#     clean = git-lfs clean --include=\".conda/**/*.dll\" --include=\".conda/**/*.zip\"
+#     smudge = git-lfs smudge --include=\".conda/**/*.pyd\" --include=\".conda/**/*.zip\"
+
+[alias]
+    st = status
+    ci = commit
+    co = checkout
+    br = branch
+    df = diff
+    lg = log --oneline --decorate --all --graph
+

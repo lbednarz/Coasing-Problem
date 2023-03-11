@@ -1,0 +1,8 @@
+{
+    "python.defaultInterpreterPath": "venv\\Scripts\\python.exe",
+    "git.ignoreLimitWarning": true,
+    "python.analysis.extraPaths": [
+        "\\sources"
+    ],
+    "editor.showUnused": false
+}
