@@ -26,3 +26,11 @@ This command will download all the LFS files in the repository. Depending on the
 5. You can now use the LFS files as you would any other files in the repository.
 
 Note: If you want to clone this repository and download the LFS files in one step, you can use the `git clone --recurse-submodules <https://github.com/lbednarz/PhDResearch.git>` command instead of step 2. This will download both the repository and the LFS files in one go.
+
+# Creating the virtual environment 
+
+We will use the install_dependencies.sh script included in the "create_environment" folder of the repo. 
+
+Make the script executable by running chmod +x install_dependencies.sh. On windows, just make sure you have script execution enabled. 
+
+Then, to run the script, simply execute ./install_dependencies.sh in the terminal. This will install all the packages listed in the dependencies file using pip.
