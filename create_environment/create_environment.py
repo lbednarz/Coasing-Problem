@@ -1,18 +1,18 @@
-#!/usr/bin/env python3
-# You should be able to run this to mimic what VS code will do for you to create the venv
-
 import os
 import subprocess
 
-def create_environment(environment_path, requirements_file):
-    os.makedirs(environment_path, exist_ok=True)
-    subprocess.run(['python', '-m', 'venv', environment_path], check=True)
-    activate_script = os.path.join(environment_path, 'Scripts', 'activate.bat')
-    with open(activate_script, 'r') as f:
-        activate_contents = f.read()
-    with open(activate_script, 'w') as f:
-        f.write('#!/usr/bin/env bash\n')
-        f.write(f'source {activate_contents}\n')
-        f.write(f'python -m pip install -r {requirements_file}\n')
+def create_environment(environment_name, requirements_file):
+    conda_env_create_command = f'conda create --name {environment_name} --file {requirements_file}'
+    subprocess.run(conda_env_create_command.split(), check=True)
 
-create_environment('.venv', 'requirements.txt')
+    with open(requirements_file, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#'):
+                if line.startswith('conda'):
+                    subprocess.run(line.split(), check=True)
+                else:
+                    subprocess.run([f'conda run -n {environment_name}', 'pip', 'install', line], check=True)
+
+create_environment('my_conda_env', 'requirements.txt')
+
