@@ -25,6 +25,10 @@ def freq_resp(sys_ss: control.NonlinearIOSystem | control.LinearIOSystem, omega:
                 axs[i, j].set_xlabel('Frequency (rad/s)')
                 axs[i, j].grid(True)
                 axs[i, j].set_xlim([omega[0], omega[-1]])
+                corner_freq = omega[np.argmax(20 * np.log10(np.abs(mag)))]
+                axs.annotate(f'Corner Frequency: {corner_freq:.2f}', xy=(corner_freq, -3),
+                    xytext=(corner_freq, -10), ha='center', va='center',
+                    arrowprops=dict(arrowstyle='->', color='black'))
         else: 
             for j in range(sys_ss.inputs):
                 hld = np.rad2deg(phase[i_phase, j, :])
