@@ -33,14 +33,30 @@ def freq_resp(sys_ss: control.NonlinearIOSystem | control.LinearIOSystem, omega:
                 max_mag = mag_db[np.argmax(mag_db)]
                 if not math.isinf(max_mag): 
                     corner_freq = max_mag - 3 
-                    label_point = np.where((mag_db > corner_freq - tol) & (mag_db < corner_freq + tol))[0][0]
-                    xlims = axs[i, j].get_xlim()
-                    ylims = axs[i, j].get_ylim()
-                    axs[i,j].annotate(f'Corner Frequency: {corner_freq:.2f}', xy=(omega[label_point], mag_db[label_point]),
-                        xytext=(xlims[0] + (xlims[1]-xlims[0])/2, ylims[1]*0.9), ha='left', va='bottom',
-                        arrowprops=dict(arrowstyle='->', color='black'))
-                    tau = 1/(2*np.pi*corner_freq)
-                    tau_arr = np.append(tau_arr, tau)
+                    max_attempts = 5
+                    attempts = 0
+                    label_point = None
+
+                    while attempts < max_attempts and label_point is None:
+                        label_point_candidates = np.where((mag_db > corner_freq - tol) & (mag_db < corner_freq + tol))[0]
+                        if len(label_point_candidates) > 0:
+                            label_point = label_point_candidates[0]
+                        else:
+                            tol *= 2
+                            print(f"For i = {i}, tolerance was increased to {tol}.")
+                            attempts += 1
+
+                    if label_point is not None:
+                        xlims = axs[i, j].get_xlim()
+                        ylims = axs[i, j].get_ylim()
+                        axs[i,j].annotate(f'Corner Frequency: {corner_freq:.2f}', xy=(omega[label_point], mag_db[label_point]),
+                            xytext=(xlims[0] + (xlims[1]-xlims[0])/2, ylims[1]*0.9), ha='left', va='bottom',
+                            arrowprops=dict(arrowstyle='->', color='black'))
+                        tau = 1/(2*np.pi*corner_freq)
+                        tau_arr = np.append(tau_arr, tau)
+                    else:
+                        print("Could not find suitable point for annotation.")
+
         else: 
             for j in range(sys_ss.ninputs):
                 hld = np.rad2deg(phase[i_phase, j, :])
