@@ -25,13 +25,18 @@ Hc = [1 0];
 
 sysc = ss(Fc,Gc,Hc,[]);
 [KESTc,Lc,Pc] = kalman(sysc,Qc,R,[]);
-KFc = [1 0 0]*KESTc;
+KFc = [1 0]*KESTc;
 tf(KFc)
 figure(1);
 bode(KFc); grid
 
 sig_phase_clk_deg = sqrt(Pc(1,1))*180/pi
 sig_phase_clk_cm = sig_phase_clk_deg*25.5/360
+
+
+
+
+
 
 
 %% ACCELEROMETER -- Ellipse2
